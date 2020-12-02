@@ -1,6 +1,6 @@
 const loggerDiv = document.createElement("div");
 let loggerDivText = "";
-addEventListener("load", ()=>document.body.appendChild(loggerDiv));
+addEventListener("load", ()=>HTMLLoggers.appendChild(loggerDiv));
 // writeToHTML(...strings)
 function HTMLWriteLn(...strings){
     HTMLWrite(...strings, "\n");
