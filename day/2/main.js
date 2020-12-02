@@ -1,23 +1,5 @@
-(async()=>{
-    const exampleInput = await getInput("exampleInput.txt");
-    const input        = await getInput("input.txt");
-
-
-    const exampleOutput = countCorrectPasswords(exampleInput);
-    console.log("example:", exampleInput);
-    HTMLWriteLn(`example: ${exampleOutput}`);
-
-    const output = countCorrectPasswords(input);
-    console.log("input:", input);
-    HTMLWriteLn(`output: ${output}`);
-
-
-    const exampleOutput2 = countCorrectPasswords2(exampleInput);
-    HTMLWriteLn(`example2: ${exampleOutput2}`);
-
-    const output2 = countCorrectPasswords2(input);
-    HTMLWriteLn(`output2: ${output2}`);
-})();
+setDayNumber(2);
+testDay("--- Day 2: Password Philosophy ---", getInput, countCorrectPasswords, countCorrectPasswords2);
 
 async function getInput(src){
     return (await fetch(src).then(v=>v.text()))
