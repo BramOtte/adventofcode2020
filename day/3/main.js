@@ -16,15 +16,12 @@ function setCell(input, x, y, value){
     const row = input[y];
     row[x%row.length] = value;
 }
-async function printInput(input){
+function printInput(input){
     HTMLDetails("path");
-    const details = loggerSpan;
-    let text = "";
-    for (const row of input){
-        text += row.join("") + "\n";
-        details.innerText = text;
-        await wait(5);
-    }
+    let text = input
+        .map(row=>row.join("")+"\n")
+        .reduce((acc, v)=>acc+v,"")
+    HTMLWrite(text);
 }
 function part1(input){
     const count = countTrees(input, 0, 0, 3, 1);
