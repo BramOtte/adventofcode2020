@@ -5,6 +5,11 @@ let loggerSpan = null;
 addEventListener("load", ()=>{
     HTMLLoggers.appendChild(loggerDiv);
 });
+function wait(ms){
+    return new Promise(res=>{
+        setTimeout((...args)=>res(args), ms);
+    });
+}
 function HTMLWriteLn(...strings){
     HTMLWrite(...strings, "\n");
 }

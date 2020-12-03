@@ -16,10 +16,14 @@ function setCell(input, x, y, value){
     const row = input[y];
     row[x%row.length] = value;
 }
-function printInput(input){
+async function printInput(input){
     HTMLDetails("path");
+    const details = loggerSpan;
+    let text = "";
     for (const row of input){
-        HTMLWriteLn(row.join(""));
+        text += row.join("") + "\n";
+        details.innerText = text;
+        await wait(5);
     }
 }
 function part1(input){
