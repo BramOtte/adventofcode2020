@@ -67,7 +67,7 @@ async function testDay(
         getInput(inputRef1),
         getInput(inputRef2)
     ] );
-
+    console.log(exampleInput, input);
     nextArticle("--part 1--");
     nextP("-example-");
     const o1e = part1(exampleInput);
