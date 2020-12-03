@@ -5,21 +5,38 @@ async function getInput(href){
     return (await fetch(href).then(res=>res.text()))
         .replaceAll("\r", "")
         .split("\n").slice(0, -1)
+        .map(row=>row.split(""))
     ;
 }
 function getCell(input, x, y){
     const row = input[y];
     return row[x%row.length]
 }
+function setCell(input, x, y, value){
+    const row = input[y];
+    row[x%row.length] = value;
+}
+function printInput(input){
+    HTMLDetails("path");
+    for (const row of input){
+        HTMLWriteLn(row);
+    }
+}
 function part1(input){
-    return countTrees(input, 0, 0, 3, 1);
+    const count = countTrees(input, 0, 0, 3, 1);
+    printInput(input);
+    return count;
 }
 function countTrees(input, startX=0, startY=0, dx=3, dy=1){
     let count = 0;
     let x = startX, y = startY;
     for (;y<input.length; x+=dx, y+=dy){
-        if (getCell(input, x, y) === "#"){
+        const cell = getCell(input, x, y)
+        if (cell === "#" || cell === "X"){
             count++
+            setCell(input, x, y, "X");
+        } else {
+            setCell(input, x, y, "O");
         }
     }
     return count;
@@ -35,8 +52,11 @@ function part2(input){
     ]
     let product = 1;
     for (const [dx, dy] of slopes){
-        product *= countTrees(input, 0, 0, dx, dy);
+        const count = countTrees(input, 0, 0, dx, dy);
+        product *= count
+        HTMLWrite(`${count}, `);
     }
+    printInput(input);
     return product;
 }
 

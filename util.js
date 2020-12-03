@@ -16,9 +16,21 @@ function HTMLWrite(...strings){
 function HTMLOutput(text){
     HTMLWrite("output:\n");
     const output = document.createElement("output");
-    output.innerText = text;
+    output.value = text;
     loggerP.appendChild(output);
     loggerSpan = null;
+}
+function HTMLDetails(summeryText){
+    const details = document.createElement("details");
+    const summery = document.createElement("summary");
+    const span = document.createElement("span");
+    summery.innerText = summeryText;
+    span.loggerText = "";
+    loggerSpan = span;
+
+    loggerP.appendChild(details);
+    details.appendChild(summery);
+    details.appendChild(span);
 }
 function nextSpan(){
     if (loggerP === null)nextP();
