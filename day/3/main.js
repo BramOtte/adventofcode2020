@@ -16,17 +16,21 @@ function setCell(input, x, y, value){
     const row = input[y];
     row[x%row.length] = value;
 }
-function printInput(input){
-    HTMLDetails("path");
-    let text = input
-        .map(row=>row.join("")+"\n")
-        .reduce((acc, v)=>acc+v,"")
-    HTMLWrite(text);
-}
 function part1(input){
     const count = countTrees(input, 0, 0, 3, 1);
     printInput(input);
     return count;
+}
+function part2(input){
+    const slopes = [ [1,1], [3,1], [5,1], [7,1], [1,2] ]
+    let product = 1;
+    for (const [dx, dy] of slopes){
+        const count = countTrees(input, 0, 0, dx, dy);
+        product *= count
+        HTMLWrite(`${count}, `);
+    }
+    printInput(input);
+    return product;
 }
 function countTrees(input, startX=0, startY=0, dx=3, dy=1){
     let count = 0;
@@ -43,22 +47,10 @@ function countTrees(input, startX=0, startY=0, dx=3, dy=1){
     return count;
 }
 
-function part2(input){
-    const slopes = [
-        [1,1],
-        [3,1],
-        [5,1],
-        [7,1],
-        [1,2]
-    ]
-    let product = 1;
-    for (const [dx, dy] of slopes){
-        const count = countTrees(input, 0, 0, dx, dy);
-        product *= count
-        HTMLWrite(`${count}, `);
-    }
-    printInput(input);
-    return product;
+function printInput(input){
+    HTMLDetails("path");
+    let text = input
+        .map(row=>row.join("")+"\n")
+        .reduce((acc, v)=>acc+v,"")
+    HTMLWrite(text);
 }
-
-

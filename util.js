@@ -21,6 +21,7 @@ function HTMLWrite(...strings){
 function HTMLOutput(text){
     HTMLWrite("output:\n");
     const output = document.createElement("output");
+    output.className = "day-success";
     output.value = text;
     loggerP.appendChild(output);
     loggerSpan = null;
@@ -28,7 +29,7 @@ function HTMLOutput(text){
 function HTMLDetails(summeryText){
     const details = document.createElement("details");
     const summery = document.createElement("summary");
-    const span = document.createElement("span");
+    const span = document.createElement("code");
     summery.innerText = summeryText;
     span.loggerText = "";
     loggerSpan = span;
@@ -85,21 +86,20 @@ async function testDay(
         getInput(inputRef2)
     ] );
     console.log(exampleInput, input);
-    nextArticle("--part 1--");
-    nextP("-example-");
+    nextP("example");
     const o1e = part1(exampleInput);
     HTMLOutput(o1e)
 
-    nextP("-challenge-");
+    nextP("challenge");
     const o1 = part1(input);
     HTMLOutput(o1)
 
     nextArticle("--part 2--");
-    nextP("-example-");
+    nextP("example");
     const o2e = part2(exampleInput);
     HTMLOutput(o2e)
 
-    nextP("-challenge-");
+    nextP("challenge");
     const o2 = part2(input);
     HTMLOutput(o2)
 };
