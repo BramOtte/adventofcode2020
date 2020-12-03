@@ -50,7 +50,8 @@ function countTrees(input, startX=0, startY=0, dx=3, dy=1){
 function printInput(input){
     HTMLDetails("path");
     let text = input
-        .map(row=>row.join("")+"\n")
-        .reduce((acc, v)=>acc+v,"")
+        .map(row=>row.join(""))
+        .join("\n");
     HTMLWrite(text);
+    nextSpan();
 }
