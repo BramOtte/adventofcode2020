@@ -19,7 +19,7 @@ function setCell(input, x, y, value){
 function printInput(input){
     HTMLDetails("path");
     for (const row of input){
-        HTMLWriteLn(row);
+        HTMLWriteLn(row.join(""));
     }
 }
 function part1(input){
