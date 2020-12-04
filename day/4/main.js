@@ -52,7 +52,7 @@ function part2(input){
         )
     console.log(correct.map(obj=>{
             let str = "";
-            for (const key in obj){
+            for (const key of requiredFields){
                 const value = obj[key];
                 str += key + ":" + value + " "
             }
