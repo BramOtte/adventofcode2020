@@ -19,12 +19,15 @@ async function getInput(href){
 }
 // cid is ignored
 const requiredFields = "byr iyr eyr hgt hcl ecl pid".split(" ");
+function filter1(obj){
+    return !requiredFields.some((field)=>!obj[field])
+}
 function part1(input){
-    const correct = input.filter(obj=>
-        !requiredFields.some((field)=>!obj[field])
-    );
+    const correct = input.filter(filter1);
+    const incorrect = input.filter((obj)=>!filter1(obj));
     writeOutput(input, "all passports");
     writeOutput(correct, "correct passports");
+    writeOutput(incorrect, "incorrect passports");
     return correct.length;
 }
 function within(value, min, max){
@@ -44,15 +47,18 @@ const fieldRequirements = {
     ecl:(string)=>eyeColors.includes(string),
     pid:(string)=>string.length === 9 && (/\d{9}/).test(string)
 }
+function filter2(obj){
+    return ! Object.keys(fieldRequirements)
+    .some(key=>!(
+        obj[key] !== undefined && fieldRequirements[key](obj[key])
+    ))
+}
 function part2(input){
-    const correct = input.filter(obj=>
-            ! Object.keys(fieldRequirements)
-            .some(key=>!(
-                obj[key] !== undefined && fieldRequirements[key](obj[key])
-            ))
-        )
-        writeOutput(input, "all passports");
-        writeOutput(correct, "correct passports");
+    const correct = input.filter(filter2)
+    const incorrect = input.filter((obj)=>!filter2(obj));
+    writeOutput(input, "all passports");
+    writeOutput(correct, "correct passports");
+    writeOutput(incorrect, "incorrect passports");
     return correct.length;
 }
 function writeOutput(output, heading){
