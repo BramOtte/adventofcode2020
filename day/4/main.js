@@ -21,8 +21,10 @@ async function getInput(href){
 const requiredFields = "byr iyr eyr hgt hcl ecl pid".split(" ");
 function part1(input){
     const correct = input.filter(obj=>
-            !requiredFields.some((field)=>!obj[field])
-        )
+        !requiredFields.some((field)=>!obj[field])
+    );
+    writeOutput(input, "all passports");
+    writeOutput(correct, "correct passports");
     return correct.length;
 }
 function within(value, min, max){
@@ -40,17 +42,21 @@ const fieldRequirements = {
         ( (/\d+in/).test(string) && within(parseInt(string), 59, 76) ),
     hcl:(string)=>(/#[0-9a-f]{6}/).test(string),
     ecl:(string)=>eyeColors.includes(string),
-    pid:(string)=>(/\d{9}/).test(string)
+    pid:(string)=>string.length === 9 && (/\d{9}/).test(string)
 }
 function part2(input){
-    test2(input);
     const correct = input.filter(obj=>
             ! Object.keys(fieldRequirements)
             .some(key=>!(
                 obj[key] !== undefined && fieldRequirements[key](obj[key])
             ))
         )
-    console.log(correct.map(obj=>{
+        writeOutput(input, "all passports");
+        writeOutput(correct, "correct passports");
+    return correct.length;
+}
+function writeOutput(output, heading){
+    const text = output.map(obj=>{
             let str = "";
             for (const key of requiredFields){
                 const value = obj[key];
@@ -58,11 +64,11 @@ function part2(input){
             }
             return str;
         })
-        .join("\n")
-    );
-    return correct.length;
+        .join("\n");
+    HTMLDetails(heading);;
+    HTMLWrite(text);
+    nextSpan();
 }
-
 function test2(input){
     for (const key in fieldRequirements){
         const correct = input.filter(
