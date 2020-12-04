@@ -33,7 +33,7 @@ function HTMLDetails(summeryText){
     summery.innerText = summeryText;
     span.loggerText = "";
     loggerSpan = span;
-
+    if (loggerP === null)nextP();
     loggerP.appendChild(details);
     details.appendChild(summery);
     details.appendChild(span);
