@@ -57,29 +57,7 @@ function part2(input){
     return correct.length;
 }
 function writeOutput(output, heading){
-    const lengthMap = {};
-    output.forEach(obj=>{
-        for (const key of requiredFields){
-            const value = obj[key] ?? "";
-            const kvString = key + ":" + value + "."
-            lengthMap[key] = Math.max(kvString.length, lengthMap[key]??0);
-        }
-    })
-    const text = output.map(obj=>{
-        let str = "";
-        for (const key of requiredFields){
-            const value = obj[key] ?? "";
-            let kvString = key + ":" + value + " ";
-            kvString += ".".repeat(lengthMap[key] - kvString.length); 
-            str += kvString;
-        }
-        return str;
-    })
-    .join("\n");
-    
-    HTMLDetails(heading);;
-    HTMLWrite(text);
-    nextSpan();
+    HTMLStringTable(heading, output, requiredFields);
 }
 function test2(input){
     for (const key in fieldRequirements){

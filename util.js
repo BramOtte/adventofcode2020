@@ -37,6 +37,7 @@ function HTMLDetails(summeryText){
     loggerP.appendChild(details);
     details.appendChild(summery);
     details.appendChild(span);
+    return details;
 }
 function nextSpan(){
     if (loggerP === null)nextP();
@@ -64,6 +65,43 @@ function nextArticle(heading = "no title"){
     loggerArticle.appendChild(header);
     loggerP = null;
 }
+function objectArrayToTableString(objArr=[], keys=[]){
+    let lengthMap = {};
+    for (const key of keys){
+        lengthMap[key] = key.length;
+    }
+    for (const obj of objArr){
+        for (const key of keys){
+            const value = obj[key]?.toString()
+            if (value === undefined || value === null)continue;
+            obj[key] = value;
+            lengthMap[key] = Math.max(value.length??0, lengthMap[key]);
+        }
+    }
+    const keysString = "| " + keys.map(key =>
+        key + ".".repeat(lengthMap[key] - key.length)
+    ).join(" | ") + " |"
+
+    const valuesString = objArr.map(obj=>
+        str = "| " + keys.map(key => {
+            let value = obj[key]??"";
+            value += ".".repeat(lengthMap[key] - value.length);
+            return value
+        }).join(" | ") + " |"
+    )
+    .join("\n");
+
+    return keysString + "\n" +
+    "-".repeat(keysString.length) + "\n" +
+    valuesString;
+}
+function HTMLStringTable(heading, objArr, keys){
+    const text = objectArrayToTableString(objArr, keys);
+    const details =HTMLDetails(heading);
+    HTMLWrite(text);
+    nextSpan();
+    return details;
+}
 function setDayNumber(day){
     addEventListener("load", ()=>{
         document.title = document.title.replace("((day))", day);
@@ -73,6 +111,7 @@ function setDayNumber(day){
         }
     });
 }
+
 
 async function testDay(
     title, getInput=()=>"no input",
