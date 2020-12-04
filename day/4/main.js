@@ -2,20 +2,15 @@ setDayNumber(4);
 testDay("--- Day 4: Passport Processing ---", getInput, part1, part2);
 async function getInput(href){
     const text = await fetch(href).then(res=>res.text());
-    const rows = text.split(/\n[.\r]{0,4}\n/);
-    console.log(rows)
-    const kvss = rows.map(row=>
-        row.split(/[\s]+/).map(kvStr=>kvStr.split(":"))
-    );
-    console.log(kvss);
-    const data = kvss.map(kvs=>{
+    return text.split(/\n[.\r]{0,4}\n/)
+    .map(row=>row.split( /[\s]+/).map(kvStr=>kvStr.split(":")) )
+    .map(kvs=>{
         const obj = {};
         for (const [key, value] of kvs){
             obj[key] = value;
         }
         return Object.freeze(obj);
     });
-    return data;
 }
 // cid is ignored
 const requiredFields = "byr iyr eyr hgt hcl ecl pid".split(" ");
@@ -62,15 +57,26 @@ function part2(input){
     return correct.length;
 }
 function writeOutput(output, heading){
+    const lengthMap = {};
+    output.forEach(obj=>{
+        for (const key of requiredFields){
+            const value = obj[key] ?? "";
+            const kvString = key + ":" + value + "."
+            lengthMap[key] = Math.max(kvString.length, lengthMap[key]??0);
+        }
+    })
     const text = output.map(obj=>{
-            let str = "";
-            for (const key of requiredFields){
-                const value = obj[key];
-                str += key + ":" + value + " "
-            }
-            return str;
-        })
-        .join("\n");
+        let str = "";
+        for (const key of requiredFields){
+            const value = obj[key] ?? "";
+            let kvString = key + ":" + value + " ";
+            kvString += ".".repeat(lengthMap[key] - kvString.length); 
+            str += kvString;
+        }
+        return str;
+    })
+    .join("\n");
+    
     HTMLDetails(heading);;
     HTMLWrite(text);
     nextSpan();
