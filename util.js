@@ -72,9 +72,8 @@ function objectArrayToTableString(objArr=[], keys=[]){
     }
     for (const obj of objArr){
         for (const key of keys){
-            const value = obj[key]?.toString()
-            if (value === undefined || value === null)continue;
-            obj[key] = value;
+            const value = obj[key]?.toString()??"";
+            if (value === "")continue;
             lengthMap[key] = Math.max(value.length??0, lengthMap[key]);
         }
     }
@@ -83,8 +82,9 @@ function objectArrayToTableString(objArr=[], keys=[]){
     ).join(" | ") + " |"
 
     const valuesString = objArr.map(obj=>
-        str = "| " + keys.map(key => {
-            let value = obj[key]??"";
+        "| " + keys.map(key => {
+            let value = obj[key]?.toString()??"";
+            value = value?.replaceAll(/[\n\r]/g, "")
             value += ".".repeat(lengthMap[key] - value.length);
             return value
         }).join(" | ") + " |"
@@ -97,7 +97,7 @@ function objectArrayToTableString(objArr=[], keys=[]){
 }
 function HTMLStringTable(heading, objArr, keys){
     const text = objectArrayToTableString(objArr, keys);
-    const details =HTMLDetails(heading);
+    const details = HTMLDetails(heading);
     HTMLWrite(text);
     nextSpan();
     return details;
