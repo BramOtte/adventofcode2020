@@ -1,4 +1,4 @@
-setDayNumber(-1);
+setDayNumber(6);
 testDay("--- Day 6: Custom Customs ---", getInput, part1, part2);
 
 async function getInput(href){
