@@ -8,9 +8,9 @@ async function getInput(href){
 }
 function part1(input){
     const groups = input.map(group=>{
-        const answers = group.replace(/[^a-z]/g, "");
-        const yes = new Set(answers).size
-        return Object.freeze({answers, yes});
+        const answers = new Set(group.replace(/[^a-z]/g, ""));
+        const yes = answers.size
+        return Object.freeze({answers:[...answers.values()].sort().join(""), yes});
     });
     HTMLStringTable("groups", groups, ["answers", "yes"]);
     return groups.reduce((acc, count) => acc + count.yes, 0);
@@ -26,7 +26,7 @@ function part2(input){
         for (const person of people){
             answers = person.filter(answer=>answers.includes(answer));
         }
-        return {answers:answers.join(""), yes:answers.length}
+        return {answers:answers.sort().join(""), yes:answers.length}
     })
     HTMLStringTable("groups", groups, ["answers", "yes"]);
     return groups.reduce((acc, count) => acc + count.yes, 0);
