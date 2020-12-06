@@ -8,7 +8,7 @@ body {
 img { border:0; }
 a { outline:0; }
 main, figure, figcaption { display:block; }
-pre, code { font-family: "Source Code Pro", monospace; width: max-content;}
+pre, code { font-family: "Source Code Pro", monospace;}
 header, main {
   -webkit-text-size-adjust: none;
 }
