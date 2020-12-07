@@ -29,7 +29,7 @@ function HTMLOutput(text){
 function HTMLDetails(summeryText){
     const details = document.createElement("details");
     const summery = document.createElement("summary");
-    const span = document.createElement("code");
+    const span = document.createElement("pre");
     summery.innerText = summeryText;
     span.loggerText = "";
     loggerSpan = span;
@@ -78,14 +78,14 @@ function objectArrayToTableString(objArr=[], keys=[]){
         }
     }
     const keysString = "| " + keys.map(key =>
-        key + ".".repeat(lengthMap[key] - key.length)
+        key + " ".repeat(lengthMap[key] - key.length)
     ).join(" | ") + " |"
 
     const valuesString = objArr.map(obj=>
         "| " + keys.map(key => {
             let value = obj[key]?.toString()??"";
             value = value?.replaceAll(/[\n\r]/g, "")
-            value += ".".repeat(lengthMap[key] - value.length);
+            value += " ".repeat(lengthMap[key] - value.length);
             return value
         }).join(" | ") + " |"
     )
