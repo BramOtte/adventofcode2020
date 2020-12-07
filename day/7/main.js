@@ -23,18 +23,17 @@ async function getInput(href){
         })
     );
 }
-function part1(bags){
+function part1(input){
     let count = 0;
     const colorSet = new Set(["shiny gold"]);
     while (count !== colorSet.size){
         count = colorSet.size
-        bags.forEach(bag => {
+        input.forEach(bag => {
             let canContain = bag.contents.some(content => colorSet.has(content.color));
-            if (canContain){
-                colorSet.add(bag.color);
-            }
+            if (canContain)colorSet.add(bag.color);
         });
     }
+
     colorSet.delete("shiny gold");
     return colorSet.size;
 }
@@ -45,14 +44,11 @@ function part2(input){
         const {color, contents} = bag;
         bags[color] = contents;
     };
-    return part2r(bags, "shiny gold")-1;
+    return part2r(bags, "shiny gold") - 1;
 }
 
 function part2r(bags, color){
     const contents = bags[color];
-    if (contents === undefined){
-        console.log(color);
-    }
     if (contents.length === 0)return 1;
     return contents
         .map(content => part2r(bags, content.color) * content.count)
