@@ -13,9 +13,9 @@ async function getInput(href){
             if (contains.includes("other bags")){
                 contents = [];
             } else {
-                contents = contains.split(", ").map(content=>{
+                contents = contains.split(", ").map(content => {
                     const [count, sat, color] = content.split(" ");
-                    return Object.freeze({count, color:sat+" "+color});   
+                    return Object.freeze({count: parseInt(count), color:sat+" "+color});   
                 });
             }
             contents = Object.freeze(contents)
