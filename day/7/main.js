@@ -1,5 +1,5 @@
 setDayNumber(7);
-testDay("--- day 7 ---", getInput, part1, part2);
+testDay("--- Day 7: Handy Haversacks ---", getInput, part1, part2);
 
 async function getInput(href){
     return Object.freeze(
