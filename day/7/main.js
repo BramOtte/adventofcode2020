@@ -5,6 +5,7 @@ async function getInput(href){
     return Object.freeze(
         (await fetch(href).then(res=>res.text()))
         .split("\n").slice(0, -1)
+        .filter(row => /^\w* \w* \w* contain (no other bags|\d* (, ){0,1})./.test(row))
         .map(row=>{
             row = row.replace(".", "");
             const [container, contains] = row.split(" contain ");
@@ -33,9 +34,23 @@ function part1(input){
             if (canContain)colorSet.add(bag.color);
         });
     }
-
     colorSet.delete("shiny gold");
-    return colorSet.size;
+    logBags(
+        "bags which contain shiny gold bags",
+        input.filter(bag => colorSet.has(bag.color))
+    );
+    return colorSet.size;   
+}
+function logBags(heading, bags){
+    let bagRecords = bags.map(bag=>{
+            const color = bag.color;
+            const contents = bag.contents.map(content=>{
+                const {count, color} = content;
+                return count + " " + color;
+            }).join(", ");
+            return {color, contents};
+        })
+    HTMLStringTable(heading, bagRecords, ["color", "contents"]);
 }
 
 function part2(input){
