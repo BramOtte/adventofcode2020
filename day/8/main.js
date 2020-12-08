@@ -1,5 +1,5 @@
 setDayNumber(8);
-testDay("--- Day 8 ? ---", getInput, part1, part2);
+testDay("--- Day 8: Handheld Halting ---", getInput, part1, part2);
 
 async function getInput(href){
     return Object.freeze(
