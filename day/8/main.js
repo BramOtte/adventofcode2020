@@ -31,11 +31,10 @@ class Program {
                 let lastI = pcs.get(this.pc);
                 this.trace.push(this.getNowTrace());
                 const cTrace = this.trace.slice(lastI);
-                const stringTrace = Program.stringTrace(lines, cTrace);
+                const objectTrace = Program.objectTrace(lines, cTrace);
                 const msg = `error infinite loop in class Program\n`
-                + `at pc = ${this.pc}\n`
-                + stringTrace;
-                throw new Error(msg);
+                + `at pc = ${this.pc}\n`;
+                return {msg, objectTrace};
             }
             pcs.set(this.pc, i);
             this.execute(code);
@@ -66,7 +65,6 @@ class Program {
         for (let i = 1; i < trace.length; i++){
             const {pc:line} = trace[i-1];
             const codeO = lines[line];
-            console.log(line, codeO);
             const {opp, val} = codeO;
             const code = `${opp} ${val}`;
             const {pc, acc} = trace[i];
@@ -82,19 +80,46 @@ class Program {
 }
 function part1(input){
     const program = new Program();
-    try {
-        program.run(input);
-    } catch(e){
-        console.error(e.message);
-        return program.acc;
-        // return `ran with error | pc:${program.pc}, acc:${program.acc}`
+    const error =  program.run(input);
+    if (error){
+        HTMLStringTable("program trace", error.objectTrace, ["line", "code", "pc", "acc"]);
+        return `error | pc:${program.pc}, acc:${program.acc}`;
     }
     return `success | pc:${program.pc}, acc:${program.acc}`;
 }
+function replaceAndRun(program, input, num){
+    let cNum = -1;
+    let index = 0;
+    const lines = input.map((line, i)=>{
+        const {opp} = line;
+        if (opp !== "acc"){
+            cNum++
+        }
+        if (cNum === num && opp !== "acc"){
+            index = i;
+            return Object.freeze({...line, opp:opp==="nop"?"jmp":"nop"});
+        } else {
+            return line;
+        }
+    });
+    const error = program.run(lines);
+    return {error, index};
+}
 
 function part2(input){
-    let result = 2;
-    return result;
+    const program = new Program();
+    let lastError = null;
+    for (let n = 0; n < 1000; n++){
+        const {error, index} = replaceAndRun(program, input, n);
+        if (!error){
+            const from = input[index];
+            const to = {...from, opp:from.opp==="nop"?"jmp":"nop"};
+            HTMLWriteLn(`changed: "${from.opp} ${from.val}" to "${to.opp} ${to.val}"`);
+            return `success | line changed: ${index} | pc:${program.pc}, acc:${program.acc}`;
+        }
+        lastError = error;
+    }
+    return `error | pc:${program.pc}, acc:${program.acc}`;
 }
 
 
