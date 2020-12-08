@@ -79,13 +79,14 @@ class Program {
     }
 }
 function part1(input){
+    HTMLWriteLn(`program length: ${input.length}`);
     const program = new Program();
     const error =  program.run(input);
     if (error){
-        HTMLStringTable("program trace", error.objectTrace, ["line", "code", "pc", "acc"]);
-        return `error | pc:${program.pc}, acc:${program.acc}`;
+        HTMLStringTable("error trace", error.objectTrace, ["line", "code", "pc", "acc"]);
+        return `error | pc: ${program.pc}, acc: ${program.acc}`;
     }
-    return `success | pc:${program.pc}, acc:${program.acc}`;
+    return `success | pc: ${program.pc}, acc: ${program.acc}`;
 }
 function replaceAndRun(program, input, num){
     let cNum = -1;
@@ -103,22 +104,30 @@ function replaceAndRun(program, input, num){
         }
     });
     const error = program.run(lines);
-    return {error, index};
+    return {error, index, lines};
 }
 
 function part2(input){
+    HTMLWriteLn(`program length: ${input.length}`);
     const program = new Program();
-    let lastError = null;
     for (let n = 0; n < 1000; n++){
-        const {error, index} = replaceAndRun(program, input, n);
+        const {error, index, lines:edited} = replaceAndRun(program, input, n);
         if (!error){
             const from = input[index];
             const to = {...from, opp:from.opp==="nop"?"jmp":"nop"};
-            HTMLWriteLn(`changed: "${from.opp} ${from.val}" to "${to.opp} ${to.val}"`);
-            return `success | line changed: ${index} | pc:${program.pc}, acc:${program.acc}`;
+            
+            HTMLWriteLn(
+                `changed: "${from.opp} ${from.val}" to "${to.opp} ${to.val}"`
+            );
+            HTMLStringTable(
+                "program trace",
+                Program.objectTrace(edited, program.trace),
+                ["line", "code", "pc", "acc"]
+            );
+
+            return `success | line changed: ${index} | pc: ${program.pc}, acc: ${program.acc}`;
         }
-        lastError = error;
-    }
+    };
     return `error | pc:${program.pc}, acc:${program.acc}`;
 }
 
