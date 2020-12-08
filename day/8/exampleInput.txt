@@ -1,9 +1,9 @@
 nop +0
-acc +1 //:begin
-jmp +4 //jmp :inc
-acc +3 //:next
-jmp -3 //jmp :begin
+acc +1 // :begin
+jmp +4 // jmp :inc
+acc +3 // :next
+jmp -3 // jmp :begin
 acc -99
-acc +1 //:inc // a
-jmp -4 //jmp :next
-acc +6 //never ran
+acc +1 // :inc
+jmp -4 // jmp :next
+acc +6 // never ran

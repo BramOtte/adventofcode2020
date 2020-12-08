@@ -7,7 +7,7 @@ async function getInput(href){
         .split(/\r*\n/)
         .filter( (line) => (/^\w{3} [+-]\d+/).test(line) )
         .map( (line) => {
-            const [code, comment] = line.split("//");
+            const [code, comment] = line.split(/\s*\/\/\s*/);
             const [opp, val] = code.split(" ");
             return Object.freeze({opp:opp, val:parseInt(val), comment});
         })
