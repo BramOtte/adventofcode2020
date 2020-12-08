@@ -31,7 +31,7 @@ class Program {
                 let lastI = pcs.get(this.pc);
                 const cTrace = this.trace.slice(lastI);
                 const objectTrace = Program.objectTrace(lines, cTrace);
-                const msg = `error infinite loop, ran code twice at pc = ${this.pc-1}\n`;
+                const msg = `error infinite loop, ran code twice at pc = ${this.pc}\n`;
                 return {msg, objectTrace};
             }
             pcs.set(this.pc, i);
