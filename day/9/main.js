@@ -19,7 +19,7 @@ function isValid(num, preamble){
     return false;
 }
 function getInvalidNumber(input){
-    const preLength = input.length < 25 ? 5 : 25;
+    const preLength = input.length <= 25 ? 5 : 25;
     for (let i = preLength; i < input.length; i++){
         const preamble = input.slice(i-preLength, i)
         const num = input[i];
