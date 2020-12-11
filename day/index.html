@@ -9,6 +9,7 @@
         const href = "./days.json"
         const pDays = fetch(href).then(res=>res.json());
         import * as util from "../util.mjs";
+        import * as matrix from "../matrix.mjs";
         import { setup } from "./day.mjs";
         const urlParams = util.getUrlParams();
         const dayNr = urlParams.day ?? 0;

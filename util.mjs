@@ -26,7 +26,7 @@ export function HTMLOutput(text){
     loggerP.appendChild(output);
     loggerSpan = null;
 }
-export function HTMLDetails(summeryText){
+export function HTMLDetails(summeryText, text){
     const details = document.createElement("details");
     const summery = document.createElement("summary");
     const span = document.createElement("pre");
@@ -37,6 +37,10 @@ export function HTMLDetails(summeryText){
     loggerP.appendChild(details);
     details.appendChild(summery);
     details.appendChild(span);
+    if (text){
+        HTMLWrite(text);
+        nextSpan();
+    }
     return details;
 }
 export function nextSpan(){

@@ -32,7 +32,7 @@ export async function setup({pDays, dayNr}){
     function callPart(part){
         let i = 0;
         for (const example of exampleInput){
-            util.nextP(`- ${example[i]} -`)
+            util.nextP(`- ${examples[i++]} -`)
             partOnInput(example, part);
         }
         util.nextP("- challenge -")
