@@ -5,8 +5,14 @@
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro:300&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="./style.css">
     <title>Bram, AoC 2020 d${day}</title>
-    <script src="./util.js"></script>
-    <script src="./main.js"></script>
+    <script type=module>
+        const href = "./day/days.json"
+        const pDays = fetch(href).then(res=>res.json());
+        import * as util from "./util.mjs";
+        import { setup } from "./main.mjs";
+        const urlParams = util.getUrlParams();
+        setup({pDays});
+    </script>
 </head>
 <body>
     <header>
@@ -36,6 +42,7 @@
     <a href="./day/8">Day 8: Handheld Halting</a><br>
     <a href="./day/9">Day 9: Encoding Error</a><br>
     <a href="./day/10">Day 10: Encoding Error</a><br>
+    <a href="./day/?day=11">Day 11: Encoding Error</a><br>
     <br>
     
 </body>

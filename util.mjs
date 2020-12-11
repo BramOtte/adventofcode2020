@@ -5,20 +5,20 @@ let loggerSpan = null;
 addEventListener("load", ()=>{
     HTMLLoggers.appendChild(loggerDiv);
 });
-function wait(ms){
+export function wait(ms){
     return new Promise(res=>{
         setTimeout((...args)=>res(args), ms);
     });
 }
-function HTMLWriteLn(...strings){
+export function HTMLWriteLn(...strings){
     HTMLWrite(...strings, "\n");
 }
-function HTMLWrite(...strings){
+export function HTMLWrite(...strings){
     if (loggerSpan === null)nextSpan(); 
     loggerSpan.loggerText += strings.join(" ");
     loggerSpan.innerText = loggerSpan.loggerText;
 }
-function HTMLOutput(text){
+export function HTMLOutput(text){
     HTMLWrite("output:\n");
     const output = document.createElement("output");
     output.className = "day-success";
@@ -26,7 +26,7 @@ function HTMLOutput(text){
     loggerP.appendChild(output);
     loggerSpan = null;
 }
-function HTMLDetails(summeryText){
+export function HTMLDetails(summeryText){
     const details = document.createElement("details");
     const summery = document.createElement("summary");
     const span = document.createElement("pre");
@@ -39,13 +39,13 @@ function HTMLDetails(summeryText){
     details.appendChild(span);
     return details;
 }
-function nextSpan(){
+export function nextSpan(){
     if (loggerP === null)nextP();
     loggerSpan = document.createElement("span");
     loggerP.appendChild(loggerSpan);
     loggerSpan.loggerText = "";
 }
-function nextP(heading){
+export function nextP(heading){
     if (loggerArticle === null)nextArticle();
     loggerP = document.createElement("p");
     
@@ -56,7 +56,7 @@ function nextP(heading){
         loggerP.appendChild(header);
     }
 }
-function nextArticle(heading = "no title"){
+export function nextArticle(heading = "no title"){
     loggerArticle = document.createElement("article");
     const header = document.createElement("h2");
     header.innerText = heading;
@@ -65,7 +65,7 @@ function nextArticle(heading = "no title"){
     loggerArticle.appendChild(header);
     loggerP = null;
 }
-function objectArrayToTableString(objArr=[], keys=[]){
+export function objectArrayToTableString(objArr=[], keys=[]){
     let lengthMap = {};
     for (const key of keys){
         lengthMap[key] = key.length;
@@ -95,14 +95,14 @@ function objectArrayToTableString(objArr=[], keys=[]){
     "-".repeat(keysString.length) + "\n" +
     valuesString;
 }
-function HTMLStringTable(heading, objArr, keys){
+export function HTMLStringTable(heading, objArr, keys){
     const text = objectArrayToTableString(objArr, keys);
     const details = HTMLDetails(heading);
     HTMLWrite(text);
     nextSpan();
     return details;
 }
-function setDayNumber(day){
+export function setDayNumber(day){
     addEventListener("load", ()=>{
         document.title = document.title.replace("((day))", day);
         for (const a of document.getElementsByTagName("a")){
@@ -113,7 +113,7 @@ function setDayNumber(day){
 }
 
 
-async function testDay(
+export async function testDay(
     title, getInput=()=>"no input",
     part1=()=>"no solution", part2=()=>"no solution",
     inputRef1="./exampleInput.txt", 
@@ -143,7 +143,7 @@ async function testDay(
     HTMLOutput(o2)
 };
 
-function getUrlParams(href=location.href){
+export function getUrlParams(href=location.href){
     let paramPart = [...href.split("?").slice(1)].join("");
     let params = [...new URLSearchParams(paramPart).entries()]
         .map(entry=>{
@@ -157,9 +157,9 @@ function getUrlParams(href=location.href){
     return Object.fromEntries(params);
 }
 
-function getJSON(href){
+export function getJSON(href){
     return fetch(href).then(res=>res.json());
 }
-function getText(href){
+export function getText(href){
     return fetch(href).then(res=>res.text());
 }

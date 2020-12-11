@@ -37,7 +37,6 @@ function part2(input, max = 3){
         cacheObjectLog,
         ["fromIndex", "configurations"]
     );
-    console.log(cache);
     return result;
 }
 
@@ -53,5 +52,54 @@ function part2r(sorted, i, max=3, cache = new Map()){
     cache.set(startI, options);
     return options;
 }
+function part2ro(sorted, i, max=3, cache = {}){
+    const startI = i;
+    if (startI === sorted.length-1)return 1;
+    const cached = cache[startI] ?? 0;
+    if (cached)return cached;
+    const from = sorted[i];
+    let options = 0;
+    for (i++; sorted[i] - from <= max && i < sorted.length; i++){
+        options += part2ro(sorted, i, max, cache);
+    }
+    cache[startI] = options;
+    return options;
+}
+function part2n(sorted, max=3){
+    let count = 1;
+    for (let i = sorted.length-1; i >= 0; i--){
+        const lastCount = count;
+        const current = sorted[i];
+        for (let di = 1; di < max; di++){
+            const previous = sorted[i-di];
+            if (current-previous > max)break;
+            count += lastCount;
+        }
+    }
+    return count;
+}
 
-
+pref();
+pref();
+pref();
+pref();
+async function pref(){
+    const its = 1;
+    const input = await getInput("input.txt");
+    let sorteds = new Array(its);
+    for (let i = 0; i < sorteds.length; i++){
+        sorteds[i] = input.slice();
+    }
+    let results = new Array(its);
+    console.time("part2");
+    for (let i = 0; i < its; i++){
+        const sorted = sorteds[i].sort((a,b)=>a-b);
+        // const res = part2r(sorted, 0, 3, new Map());
+        // const res = part2ra(sorted, 0, 3, sorted.map(_=>0));
+        const res = part2n(sorted, 3);
+        results[i] = res;
+    }
+    console.timeEnd("part2");
+    console.log(sorteds, results);
+    return results;
+}

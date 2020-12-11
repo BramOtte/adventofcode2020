@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro:300&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <title>Bram, AoC 2020 d((day))</title>
+    <script type=module>
+        const href = "./days.json"
+        const pDays = fetch(href).then(res=>res.json());
+        import * as util from "../util.mjs";
+        import { setup } from "./day.mjs";
+        const urlParams = util.getUrlParams();
+        const dayNr = urlParams.day ?? 0;
+        util.setDayNumber(dayNr);
+        setup({pDays, dayNr});
+    </script>
+</head>
+<body>
+    <header>
+        <h1 class="title-global">
+            <a href="../">Bram AoC2020</a>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="./?day=((day-1))" id="nav-previous">[previous]</a></li>
+                <li><a href="./?day=((day+1))" id="nav-next">[next]</a></li>
+            </ul>
+        </nav>
+        <br>
+        <h1 class="title-event-wrap">
+            <a href="https://adventofcode.com/2020">AoC original site</a>
+        </h1>
+    </header>
+    <main>
+        <a href="golf.html">golf page</a>
+        <div id=HTMLLoggers></div>
+    </main>
+</body>
+</html>
