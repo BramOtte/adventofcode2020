@@ -1,5 +1,5 @@
-import * as util from "../../util.mjs";
-import Matrix from "../../matrix.mjs";
+import * as util from "../../modules/util.mjs";
+import Matrix from "../../modules/Matrix.mjs";
 
 export function setup(){
     console.log("setup");

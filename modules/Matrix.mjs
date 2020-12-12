@@ -33,7 +33,7 @@ export default class Matrix {
 
     /**
      * 
-     * @param {(val:any, x:number, y:number, source:Matrix, target:Matrix)=>any} callback
+     * @param {(val:any, x:number, y:number, source:Matrix)=>any} callback
      */
     map(callback, target = this.clone()){
         for (let y = 0; y < this.height; y++){

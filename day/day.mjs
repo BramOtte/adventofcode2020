@@ -1,5 +1,5 @@
 "use strict";
-import * as util from "../util.mjs";
+import * as util from "../modules/util.mjs";
 
 export async function setup({pDays, dayNr}){
     const days = await pDays ?? {};

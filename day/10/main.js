@@ -1,5 +1,5 @@
 setDayNumber(10);
-testDay("--- template ---", getInput, part1, part2);
+testDay("--- Adapter Array ---", getInput, part1, part2);
 
 async function getInput(href){
     const adapters = (await fetch(href).then(res=>res.text()))

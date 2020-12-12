@@ -1,3 +1,5 @@
+import * as util from "../../modules/util.mjs";
+
 export function setup(){
     console.log("setup");
 }
