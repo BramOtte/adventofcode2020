@@ -1,12 +1,8 @@
-setDayNumber(9);
-testDay("--- Day 9: Encoding Error ---", getInput, part1, part2);
-
-async function getInput(href){
-    return (await fetch(href).then(res=>res.text()))
+export function getInput(text){
+    return text
         .split(/\r*\n/)
         .filter(row=>/^\d+/.test(row))
         .map(row=>parseInt(row));
-    ;
 }
 function isValid(num, preamble){
     for (let i = 0; i < preamble.length; i++){
@@ -30,10 +26,13 @@ function getInvalidNumber(input){
     return 0;
 }
 
-function part1(input){
+export function part1(input){
     const invalid = getInvalidNumber(input);
-    if (!invalid)return "all numbers where correct";
-    return `${invalid} was incorrect`;
+    const result = invalid ?
+        `${invalid} was incorrect` : 
+        "all numbers where correct";
+        
+    return {result};
 }
 
 function getContiguous(num, input){
@@ -47,15 +46,16 @@ function getContiguous(num, input){
         }
     }
 }
-function part2(input){
+export function part2(input){
     const invalid = getInvalidNumber(input);
     if (!invalid)return "all numbers where correct";
     const slice = getContiguous(invalid, input);
     if (!slice)return `no range found that sums up to ${invalid}`;
-    let min = Math.min(...slice);
-    let max = Math.max(...slice);
-    let answer = min + max;
-    return `${min} + ${max} = ${answer}`;
+    const min = Math.min(...slice);
+    const max = Math.max(...slice);
+    const result = min + max;
+    const calc = `${min} + ${max} = ${result}`;
+    return {result, calc};
 }
 
 

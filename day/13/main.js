@@ -10,14 +10,11 @@ export function setup(){
 export function getInput(text){
     const [timeStr, bussesStr] = text.split(/\r*\n/);
     const time = parseInt(timeStr);
-    const busses = Object.freeze(
-        bussesStr.split(",")
+    const busses = bussesStr
+        .split(",")
         .filter(id=>(/^\d+|x/).test(id))
-        .map(id=> id === "x"?"x":parseInt(id))
-    )
-    return Object.freeze({
-        time, busses   
-    });
+        .map(id=> id === "x"?"x":parseInt(id));
+    return {time, busses};
 }
 function getDeparture(id, time){
     const progress = time % id;

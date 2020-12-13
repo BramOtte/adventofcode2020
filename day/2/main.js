@@ -1,15 +1,14 @@
-setDayNumber(2);
-testDay("--- Day 2: Password Philosophy ---", getInput, part1, part2);
+import { HTMLStringTable } from "../../modules/util.js";
 
-async function getInput(src){
-    return (await fetch(src).then(v=>v.text()))
+export function getInput(text){
+    return text
     .split("\n").slice(0, -1)
     .map(v=>v.split(" "))
-    .map(v=>Object.freeze({
+    .map(v=>{return {
         range: v[0].split("-").map(v=>parseInt(v)),
         letter: v[1][0],
         password: v[2]
-    }));
+    }});
 }
 function countLetter(string, letter){
     let count = 0;
@@ -25,13 +24,14 @@ function filter1(row){
     return letterCount >= min && letterCount <= max
 }
 const keys = ["range", "letter", "password"]
-function part1(input){
+export function part1(input){
     const correct = input.filter(filter1);
     const incorrect = input.filter((row) => !filter1(row));
     HTMLStringTable("all passwords", input, keys);
     HTMLStringTable("correct passwords", correct, keys);
     HTMLStringTable("incorrect passwords", incorrect, keys);
-    return correct.length;
+    const result = correct.length;
+    return {result};
 }
 
 function filter2(row){
@@ -41,11 +41,12 @@ function filter2(row){
         .reduce((acc, v) => acc += v, 0);
     return letterCount === 1;
 }
-function part2(input){
+export function part2(input){
     const correct = input.filter(filter2);
     const incorrect = input.filter((row) => !filter2(row));
     HTMLStringTable("all passwords", input, keys);
     HTMLStringTable("correct passwords", correct, keys);
     HTMLStringTable("incorrect passwords", incorrect, keys);
-    return correct.length;
+    const result = correct.length;
+    return {result};
 }

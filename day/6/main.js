@@ -1,22 +1,22 @@
-setDayNumber(6);
-testDay("--- Day 6: Custom Customs ---", getInput, part1, part2);
+import { HTMLStringTable } from "../../modules/util.js";
 
-async function getInput(href){
-    return (await fetch(href).then(res=>res.text()))
+export function getInput(text){
+    return text
         .split(/\r*\n\r*\n/)
     ;
 }
-function part1(input){
+export function part1(input){
     const groups = input.map(group=>{
         const answers = new Set(group.replace(/[^a-z]/g, ""));
         const yes = answers.size
-        return Object.freeze({answers:[...answers.values()].sort().join(""), yes});
+        return {answers:[...answers.values()].sort().join(""), yes};
     });
     HTMLStringTable("groups", groups, ["answers", "yes"]);
-    return groups.reduce((acc, count) => acc + count.yes, 0);
+    const result = groups.reduce((acc, count) => acc + count.yes, 0); 
+    return {result}
 }
 
-function part2(input){
+export function part2(input){
     const groups = input.map(group=>{
         const people = group.split(/\r*\n/)
             .filter(person=>person !== "")
@@ -29,7 +29,8 @@ function part2(input){
         return {answers:answers.sort().join(""), yes:answers.length}
     })
     HTMLStringTable("groups", groups, ["answers", "yes"]);
-    return groups.reduce((acc, count) => acc + count.yes, 0);
+    const result = groups.reduce((acc, count) => acc + count.yes, 0);
+    return {result};
 }
 
 

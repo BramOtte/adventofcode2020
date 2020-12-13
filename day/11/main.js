@@ -10,7 +10,7 @@ export function setup(){
  * @returns {Matrix}
  */
 export function getInput(text){
-    let lines = text
+    const lines = text
         .split(/\r*\n/)
         .filter((line) => (/^[L.#]+/).test(line))
         .map(line=>line.split(""));
@@ -26,10 +26,7 @@ export function getInput(text){
     const seats = Matrix.newFill(width, height, 0)
         .map((_, x, y)=>lines[y][x] !== "."?1:0);
     
-        return Object.freeze({
-        occupieds: Object.freeze(occupieds),
-        seats: Object.freeze(seats)
-    });
+        return {occupieds, seats};
 }
 
 /**
@@ -39,8 +36,7 @@ export function getInput(text){
 export function part1(input){
     if (!input)return;
     const {occupieds, seats} = input;
-    if (occupieds.width > 10)return;
-    let toIterate = occupieds;
+    let toIterate = occupieds.clone();
     let lastString = toString(toIterate, seats);
     let string = "";
     util.HTMLDetails("seats", lastString);
@@ -54,7 +50,7 @@ export function part1(input){
     return {result}
 }
 function toString(occupieds, seats){
-    let fields = seats.map((exists, x, y)=>{
+    const fields = seats.map((exists, x, y)=>{
         const occupied = occupieds.get(x,y);
         return exists ? (
             occupied ? "#" : "L"
@@ -82,7 +78,7 @@ export function part2(input){
     if (!input)return;
     const {occupieds, seats} = input;
     // if (occupieds.width > 10)return;
-    let toIterate = occupieds;
+    let toIterate = occupieds.clone();
     let lastString = toString(toIterate, seats);
     let string = "";
     util.HTMLDetails("seats", lastString);
@@ -90,7 +86,7 @@ export function part2(input){
         lastString = string;
         toIterate = iterate2(toIterate, seats);
         string =  toString(toIterate, seats)
-        util.HTMLDetails("seats", string);
+        // util.HTMLDetails("seats", string);
     }
     const result = string.replace(/[^#]/g, "").length;
     return {result}

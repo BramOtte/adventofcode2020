@@ -1,25 +1,22 @@
-setDayNumber(1);
-testDay("--- Day 1: Report Repair ---", getInput, getProduct2, getProduct3);
+import { HTMLWriteLn } from "../../modules/util.js";
 
-function part1(input, targetSum=2020){
+export function part1(input, targetSum=2020){
     console.log(input);
     HTMLWriteLn(`part 1 with ${input.length} numbers, `);
-    const output = getProduct2(input, targetSum);
-    return output;
+    const result = getProduct2(input, targetSum);
+    return {result};
 }
-function part2(input, targetSum=2020){
+export function part2(input, targetSum=2020){
     console.log(input);
     HTMLWriteLn(`part 2 with ${input.length} numbers, `);
-    const output = getProduct3(input, targetSum);
-    return output
+    const result = getProduct3(input, targetSum);
+    return {result}
 }
-function getInput(src){
-    return fetch(src)
-        .then(v=>v.text())
-        .then(v=>v.split("\n")
+export function getInput(text){
+    return text
+        .split("\n")
         .slice(0, -1)
-        .map(v=>parseInt(v)))
-    ;
+        .map(v=>parseInt(v));
 }
 function getProduct2(input, targetSum=2020){
     let product = 1;

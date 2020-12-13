@@ -168,3 +168,39 @@ export function getJSON(href){
 export function getText(href){
     return fetch(href).then(res=>res.text());
 }
+
+export function deepFreeze(object) {
+    if (!object)return object;
+    // Retrieve the property names defined on object
+    const propNames = Object.getOwnPropertyNames(object);
+
+    // Freeze properties before freezing self
+    
+    for (const name of propNames) {
+        const value = object[name];
+
+        if (value && typeof value === "object") { 
+        deepFreeze(value);
+        }
+    }
+
+    return Object.freeze(object);
+}
+
+export function deepCopy(object){
+    let copy;
+    if (typeof object?.clone === "function"){
+        return object.clone();
+    } else if (Array.isArray(object)){
+        copy = [];
+    } else if (typeof object === "object"){
+        copy = {};
+    } else {
+        return object;
+    }
+    for (const key in object){
+        const value = object[key];
+        copy[key] = deepCopy(value);
+    }
+    return copy;
+}

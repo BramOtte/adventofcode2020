@@ -1,17 +1,14 @@
-setDayNumber(8);
-testDay("--- Day 8: Handheld Halting ---", getInput, part1, part2);
+import { HTMLStringTable, HTMLWriteLn, objectArrayToTableString } from "../../modules/util.js";
 
-async function getInput(href){
-    return Object.freeze(
-        (await fetch(href).then(res=>res.text()))
+export function getInput(text){
+    return text
         .split(/\r*\n/)
         .filter( (line) => (/^\w{3} [+-]\d+/).test(line) )
         .map( (line) => {
             const [code, comment] = line.split(/\s*\/\/\s*/);
             const [opp, val] = code.split(" ");
-            return Object.freeze({opp:opp, val:parseInt(val), comment});
-        })
-    );
+            return {opp:opp, val:parseInt(val), comment};
+        });
 }
 class Program {
     pc = 0;
@@ -24,11 +21,11 @@ class Program {
     }
     run(lines){
         this.reset();
-        let pcs = new Map();
+        const pcs = new Map();
         for (let i = 0; this.pc < lines.length; i++){
             const code = lines[this.pc];
             if (pcs.has(this.pc)){
-                let lastI = pcs.get(this.pc);
+                const lastI = pcs.get(this.pc);
                 const cTrace = this.trace.slice(lastI);
                 const objectTrace = Program.objectTrace(lines, cTrace);
                 const msg = `error infinite loop, ran code twice at pc = ${this.pc}\n`;
@@ -76,15 +73,16 @@ class Program {
         return objectArrayToTableString(objectTrace, ["lineNr", "code", "pc", "acc", "comment"]);
     }
 }
-function part1(input){
+export function part1(input){
     HTMLWriteLn(`program length: ${input.length}`);
     const program = new Program();
     const error =  program.run(input);
     if (error){
         HTMLStringTable(error.msg, error.objectTrace, ["lineNr", "code", "pc", "acc", "comment"]);
-        return `error | pc: ${program.pc}, acc: ${program.acc}`;
     }
-    return `success | pc: ${program.pc}, acc: ${program.acc}`;
+    const calc = `${error?"error":"success"} | pc: ${program.pc}, acc: ${program.acc}`
+    const result = program.acc;
+    return {result, calc};
 }
 function replaceAndRun(program, input, num){
     let cNum = -1;
@@ -105,11 +103,13 @@ function replaceAndRun(program, input, num){
     return {error, index, lines};
 }
 
-function part2(input){
+export function part2(input){
     HTMLWriteLn(`program length: ${input.length}`);
     const program = new Program();
+    let lError, lIndex, lEdited;
     for (let n = 0; n < 1000; n++){
         const {error, index, lines:edited} = replaceAndRun(program, input, n);
+        [lError, lIndex, lEdited] = [error, index, edited];
         if (!error){
             const from = input[index];
             const to = {...from, opp:from.opp==="nop"?"jmp":"nop"};
@@ -122,11 +122,13 @@ function part2(input){
                 Program.objectTrace(edited, program.trace),
                 ["lineNr", "code", "pc", "acc", "comment"]
             );
-
-            return `success | line changed: ${index} | pc: ${program.pc}, acc: ${program.acc}`;
+            lError = false;
+            break;
         }
-    };
-    return `error | pc:${program.pc}, acc:${program.acc}`;
+    }
+    const calc = `${lError?"error":"success"} | line changed: ${lIndex} | pc:${program.pc}, acc:${program.acc}`
+    const result = program.acc;
+    return {result, calc};
 }
 
 

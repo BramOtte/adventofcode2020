@@ -37,7 +37,7 @@
     },
     "13": {
         "title": "Shuttle Search", "examples":[
-            "example/1.txt", "example/2.txt", "example/3.txt", "example/4.txt", "example/5.txt", "example/6.txt"
+            "1", "2", "3", "4", "5", "6"
         ]
     }
 }

@@ -1,33 +1,32 @@
-setDayNumber(10);
-testDay("--- Adapter Array ---", getInput, part1, part2);
+import { HTMLStringTable } from "../../modules/util.js";
 
-async function getInput(href){
-    const adapters = (await fetch(href).then(res=>res.text()))
+export function getInput(text){
+    const adapters = text
         .split(/\r*\n/)
         .filter(row=>(/^\d+/).test(row))
         .map(row=>parseInt(row))
-    return Object.freeze([
+    return [
         0, Math.max(...adapters)+3,
         ...adapters
-    ]);
+    ];
 }
-function part1(input, max = 3){
-    let sorted = Object.freeze( input.slice().sort((a, b) => a - b) );
-    let diffCounts = new Array(max+1).fill().map(i=>0);
+export function part1(input, max = 3){
+    const sorted = Object.freeze( input.slice().sort((a, b) => a - b) );
+    const diffCounts = new Array(max+1).fill().map(i=>0);
     for (let i = 0; i < sorted.length-1; i++){
         const diff = sorted[i+1] - sorted[i];
         if (diff < 1 || diff > max)console.error(sorted[i]);
         diffCounts[diff]++;
     }
     const result = diffCounts[1] * diffCounts[3];
-    return `${diffCounts[1]} * ${diffCounts[3]} = ${result}`;
-
+    const calc = `${diffCounts[1]} * ${diffCounts[3]} = ${result}`;
+    return {result, calc};
 }
 
-function part2(input, max = 3){
-    let sorted = Object.freeze( input.slice().sort((a, b) => a - b) );
-    let cache = new Map();
-    let result = part2r(sorted, 0, max, cache);
+export function part2(input, max = 3){
+    const sorted = Object.freeze( input.slice().sort((a, b) => a - b) );
+    const cache = new Map();
+    const result = part2r(sorted, 0, max, cache);
     const cacheObjectLog = [...cache.entries()].map(entry=>{
         const [fromIndex, configurations] = entry;
         return {fromIndex, configurations};
@@ -37,7 +36,7 @@ function part2(input, max = 3){
         cacheObjectLog,
         ["fromIndex", "configurations"]
     );
-    return result;
+    return {result};
 }
 
 function part2r(sorted, i, max=3, cache = new Map()){
@@ -86,11 +85,11 @@ pref();
 async function pref(){
     const its = 1;
     const input = await getInput("input.txt");
-    let sorteds = new Array(its);
+    const sorteds = new Array(its);
     for (let i = 0; i < sorteds.length; i++){
         sorteds[i] = input.slice();
     }
-    let results = new Array(its);
+    const results = new Array(its);
     console.time("part2");
     for (let i = 0; i < its; i++){
         const sorted = sorteds[i].sort((a,b)=>a-b);

@@ -1,7 +1,6 @@
-setDayNumber(4);
-testDay("--- Day 4: Passport Processing ---", getInput, part1, part2);
-async function getInput(href){
-    const text = await fetch(href).then(res=>res.text());
+import { HTMLStringTable } from "../../modules/util.js";
+
+export function getInput(text){
     return text.split(/\n[.\r]{0,4}\n/)
     .map(row=>row.split( /[\s]+/).map(kvStr=>kvStr.split(":")) )
     .map(kvs=>{
@@ -9,7 +8,7 @@ async function getInput(href){
         for (const [key, value] of kvs){
             obj[key] = value;
         }
-        return Object.freeze(obj);
+        return obj;
     });
 }
 // cid is ignored
@@ -17,13 +16,14 @@ const requiredFields = "byr iyr eyr hgt hcl ecl pid".split(" ");
 function filter1(obj){
     return !requiredFields.some((field)=>!obj[field])
 }
-function part1(input){
+export function part1(input){
     const correct = input.filter(filter1);
     const incorrect = input.filter((obj)=>!filter1(obj));
     writeOutput(input, "all passports");
     writeOutput(correct, "correct passports");
     writeOutput(incorrect, "incorrect passports");
-    return correct.length;
+    const result = correct.length;
+    return {result};
 }
 function within(value, min, max){
     return value >= min && value <= max;
@@ -48,13 +48,14 @@ function filter2(obj){
         obj[key] !== undefined && fieldRequirements[key](obj[key])
     ))
 }
-function part2(input){
+export function part2(input){
     const correct = input.filter(filter2)
     const incorrect = input.filter((obj)=>!filter2(obj));
     writeOutput(input, "all passports");
     writeOutput(correct, "correct passports");
     writeOutput(incorrect, "incorrect passports");
-    return correct.length;
+    const result = correct.length;
+    return {result};
 }
 function writeOutput(output, heading){
     HTMLStringTable(heading, output, requiredFields);

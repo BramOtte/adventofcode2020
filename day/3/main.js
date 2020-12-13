@@ -1,12 +1,10 @@
-setDayNumber(3);
-testDay("--- Day 3: Toboggan Trajectory ---", getInput, part1, part2);
+import { deepCopy, HTMLDetails, HTMLWrite, nextSpan } from "../../modules/util.js";
 
-async function getInput(href){
-    return (await fetch(href).then(res=>res.text()))
+export function getInput(text){
+    return text
         .replaceAll("\r", "")
         .split("\n").slice(0, -1)
-        .map(row=>row.split(""))
-    ;
+        .map(row=>row.split(""));
 }
 function getCell(input, x, y){
     const row = input[y];
@@ -16,21 +14,25 @@ function setCell(input, x, y, value){
     const row = input[y];
     row[x%row.length] = value;
 }
-function part1(input){
-    const count = countTrees(input, 0, 0, 3, 1);
-    printInput(input);
-    return count;
+export function part1(input){
+    const output = deepCopy(input)
+    const count = countTrees(output, 0, 0, 3, 1);
+    printInput(output);
+    const result = count
+    return {result};
 }
-function part2(input){
+export function part2(input){
+    const output = deepCopy(input);
     const slopes = [ [1,1], [3,1], [5,1], [7,1], [1,2] ]
     let product = 1;
     for (const [dx, dy] of slopes){
-        const count = countTrees(input, 0, 0, dx, dy);
+        const count = countTrees(output, 0, 0, dx, dy);
         product *= count
         HTMLWrite(`${count}, `);
     }
-    printInput(input);
-    return product;
+    printInput(output);
+    const result = product;
+    return {result};
 }
 function countTrees(input, startX=0, startY=0, dx=3, dy=1){
     let count = 0;
@@ -49,7 +51,7 @@ function countTrees(input, startX=0, startY=0, dx=3, dy=1){
 
 function printInput(input){
     HTMLDetails("path");
-    let text = input
+    const text = input
         .map(row=>row.join(""))
         .join("\n");
     HTMLWrite(text);

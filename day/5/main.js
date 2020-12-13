@@ -1,13 +1,7 @@
-setDayNumber(5);
-testDay("--- Day 5: Binary Boarding ---", getInput, part1, part2);
+import { HTMLStringTable } from "../../modules/util.js";
 
-/**
- * 
- * @param {String} href 
- * @returns {String[]}
- */
-async function getInput(href){
-    return (await fetch(href).then(res=>res.text()))
+export function getInput(text){
+    return text
         .split(/\r*\n/).slice(0, -1)
         .map(row=>row.replaceAll(/[FL]/g, "0").replaceAll(/[BR]/g, "1")) 
     ;
@@ -41,17 +35,18 @@ function parseSeats(input){
  * 
  * @param {String[]} input 
  */
-function part1(input){
+export function part1(input){
     const parsed = parseSeats(input);
     HTMLStringTable("id of codes", parsed, ["code", "x", "y", "id"]);
     const ids = parsed.map(obj=>obj.id);
-    return Math.max(...ids);
+    const result = Math.max(...ids);
+    return {result}
 }
 /**
  * 
  * @param {String[]} input 
  */
-function part2(input){
+export function part2(input){
     const parsed = parseSeats(input).sort((a,b)=>a.id-b.id);
     HTMLStringTable(
         "id of codes sorted by id",
@@ -65,10 +60,7 @@ function part2(input){
         if (myId !== id)break;
         myId++;
     }
-    if (myId > maxId){
-        return NaN;
-    } else {
-        return myId;
-    }
+    const result = myId > maxId ? NaN : myId;
+    return {result};
 }
 

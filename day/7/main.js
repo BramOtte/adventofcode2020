@@ -1,9 +1,8 @@
-setDayNumber(7);
-testDay("--- Day 7: Handy Haversacks ---", getInput, part1, part2);
+import { HTMLStringTable } from "../../modules/util.js";
 
-async function getInput(href){
+export function getInput(text){
     return Object.freeze(
-        (await fetch(href).then(res=>res.text()))
+        text
         .split("\n").slice(0, -1)
         .filter(row => /^\w* \w* \w* contain (no other bags|\d* (, ){0,1})./.test(row))
         .map(row=>{
@@ -19,18 +18,17 @@ async function getInput(href){
                     return Object.freeze({count: parseInt(count), color:sat+" "+color});   
                 });
             }
-            contents = Object.freeze(contents)
-            return Object.freeze({color:sat+" "+color, contents});
+            return {color:sat+" "+color, contents};
         })
     );
 }
-function part1(input){
+export function part1(input){
     let count = 0;
     const colorSet = new Set(["shiny gold"]);
     while (count !== colorSet.size){
         count = colorSet.size
         input.forEach(bag => {
-            let canContain = bag.contents.some(content => colorSet.has(content.color));
+            const canContain = bag.contents.some(content => colorSet.has(content.color));
             if (canContain)colorSet.add(bag.color);
         });
     }
@@ -39,10 +37,11 @@ function part1(input){
         "bags which contain shiny gold bags",
         input.filter(bag => colorSet.has(bag.color))
     );
-    return colorSet.size;   
+    const result = colorSet.size;
+    return {result};   
 }
 function logBags(heading, bags){
-    let bagRecords = bags.map(bag=>{
+    const bagRecords = bags.map(bag=>{
             const color = bag.color;
             const contents = bag.contents.map(content=>{
                 const {count, color} = content;
@@ -53,13 +52,14 @@ function logBags(heading, bags){
     HTMLStringTable(heading, bagRecords, ["color", "contents"]);
 }
 
-function part2(input){
-    let bags = {}
+export function part2(input){
+    const bags = {}
     for (const bag of input){
         const {color, contents} = bag;
         bags[color] = contents;
-    };
-    return part2r(bags, "shiny gold") - 1;
+    }
+    const result = part2r(bags, "shiny gold") - 1
+    return {result};
 }
 
 function part2r(bags, color){

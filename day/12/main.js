@@ -9,16 +9,14 @@ export function setup(){
 }
 
 export function getInput(text){
-    return Object.freeze(
-        text
+    return text
         .split(/\r*\n/)
         .filter((line) => (/^[NSEWLRF]\d+/).test(line))
         .map(line => {
             const action = line[0];
             const value = parseInt(line.slice(1));
             return Object.freeze({action, value});
-        })
-    );
+        });
 }
 const fromDeg = Math.PI/180;
 const {cos, sin, round} = Math;

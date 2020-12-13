@@ -1,29 +1,36 @@
-"use strict";
 import * as util from "../modules/util.js";
+const pDays = util.getJSON("./days.json");
+const urlParams = util.getUrlParams();
+const dayNr = urlParams.day ?? 0;
 
-export async function oldSetup({pDays, dayNr}){
+util.setDayNumber(dayNr);
+setup({pDays, dayNr});
+
+
+
+export async function setup({pDays, dayNr}){
     const days = await pDays ?? {};
 
     let { title, input, examples } = days[dayNr] ?? {};
     title ??= "no title";
     input ??= "input.txt";
-    examples ??= ["example1.txt"];
+    examples ??= ["1"];
 
     util.nextArticle(`--- Day ${dayNr}: ${title} ---`)
 
-    const base = `./${dayNr}/`;
+    const base = `./${dayNr}`;
 
     const [code, mainText, exampleText] = await Promise.all([
-        import(base+`main.js`),
-        util.getText(base+input),
-        Promise.all( examples.map(href=>util.getText(base+href)) )
+        import(`${base}/main.js`),
+        util.getText(`${base}/input.txt`),
+        Promise.all( examples.map(href=>util.getText(`${base}/example/${href}.txt`)) )
     ]);
     console.log(code, mainText, exampleText);
 
     await code?.setup?.();
 
-    const mainInput = code.getInput(mainText);
-    const exampleInput = exampleText.map(text => code.getInput(text));
+    const mainInput = util.deepFreeze(code.getInput(mainText));
+    const exampleInput = exampleText.map(text => util.deepFreeze(code.getInput(text)) );
     
     callPart(code.part1);
     util.nextArticle("-- part2 --")
@@ -38,10 +45,10 @@ export async function oldSetup({pDays, dayNr}){
         util.nextP("- challenge -")
         partOnInput(mainInput, part);
     }
-    util.nextArticle("-- performance --");
-    util.HTMLDetails("tests");
-    await util.wait(5);
-    await testPerformance(mainInput, code.part2)
+    // util.nextArticle("-- performance --");
+    // util.HTMLDetails("tests");
+    // await util.wait(5);
+    // await testPerformance(mainInput, code.part2)
 
 
 }
