@@ -5,9 +5,11 @@ export function setup(){
 }
 
 export function getInput(text){
-    return text
+    return Object.freeze(
+        text
         .split(/\r*\n/)
-        .filter((line) => (/^\w+/).test(line));
+        .filter((line) => (/^\w+/).test(line))
+    );
 }
 
 export function part1(){

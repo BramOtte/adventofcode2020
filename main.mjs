@@ -1,4 +1,4 @@
-import * as util from "./modules/util.mjs";
+import * as util from "./modules/util.js";
 
 export async function setup({pDays}){
     const days = await pDays;

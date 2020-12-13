@@ -8,8 +8,8 @@
     <script type=module>
         const href = "./days.json"
         const pDays = fetch(href).then(res=>res.json());
-        import * as util from "../modules/util.mjs";
-        import * as matrix from "../modules/matrix.mjs";
+        import * as util from "../modules/util.js";
+        import * as matrix from "../modules/matrix.js";
         import { setup } from "./day.mjs";
         const urlParams = util.getUrlParams();
         const dayNr = urlParams.day ?? 0;

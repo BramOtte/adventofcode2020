@@ -19,7 +19,8 @@ export function HTMLWrite(...strings){
     loggerSpan.innerText = loggerSpan.loggerText;
 }
 export function HTMLOutput(text){
-    HTMLWrite("output:\n");
+    // HTMLWrite("output:\n");
+    if (loggerSpan === null)nextP();
     const output = document.createElement("output");
     output.className = "day-success";
     output.value = text;

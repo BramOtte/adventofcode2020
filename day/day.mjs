@@ -1,5 +1,5 @@
 "use strict";
-import * as util from "../modules/util.mjs";
+import * as util from "../modules/util.js";
 
 export async function setup({pDays, dayNr}){
     const days = await pDays ?? {};
@@ -14,7 +14,7 @@ export async function setup({pDays, dayNr}){
     const base = `./${dayNr}/`;
 
     const [code, mainText, exampleText] = await Promise.all([
-        import(base+`main.mjs`),
+        import(base+`main.js`),
         util.getText(base+input),
         Promise.all( examples.map(href=>util.getText(base+href)) )
     ]);
@@ -38,11 +38,38 @@ export async function setup({pDays, dayNr}){
         util.nextP("- challenge -")
         partOnInput(mainInput, part);
     }
+    util.nextArticle("-- performance --");
+    util.HTMLDetails("tests");
+    await util.wait(5);
+    await testPerformance(mainInput, code.part2)
+
+
 }
-
-
 function partOnInput(input, part){
     const retObject = part(input);
     const result = retObject?.result ?? "no result";
     util.HTMLOutput(result);
+}
+const maxTime = 1000;
+const maxFails = 2;
+async function testPerformance(input, part){
+    let its = 1;
+    let dt = 0;
+    let fails = 0
+    while (fails < maxFails){
+        const start = Date.now();
+        for (let i = 0; i < its; i++){
+            part(input);
+        }
+        const end = Date.now();
+        dt = end - start;
+        util.HTMLOutput(`its: ${Math.floor(its)}, dt: ${dt}`);
+        its*=1.5;
+        if (dt > maxTime){
+            fails++;
+        } else {
+            fails = 0;
+        }
+        await util.wait(0);
+    }
 }
