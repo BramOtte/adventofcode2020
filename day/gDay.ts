@@ -21,6 +21,7 @@ export async function generate(days: Record<string, IDay>|Promise<Record<string,
     for ( const [dayNrStr, day] of Object.entries(days) ){
         const dayNr = parseInt(dayNrStr);
         const dir = `day/${dayNr}`;
+        const htmlDir = `${dir}/index.html`
         await Deno.mkdir(dir);
         let html = template["index.html"];
         if (typeof html !== "string")throw new Error("couldn't find index.html");
@@ -28,11 +29,27 @@ export async function generate(days: Record<string, IDay>|Promise<Record<string,
         html = html.replaceAll("{{dayNr-1}}", (dayNr - 1).toString());
         html = html.replaceAll("{{dayNr+1}}", (dayNr + 1).toString());
         html = html.replaceAll("{{dayJSON}}", JSON.stringify(day));
-        Deno.writeTextFile(`${dir}/index.html`, html);
+        Deno.writeTextFile(htmlDir, html);
+
+        writeToDir(dir, template, (d) => d !== htmlDir);
     }
 }
 type IFileTree = {
     [name: string]: string|IFileTree;
+}
+
+async function writeToDir(dir: string, files: IFileTree, filter?: (dir:string)=>boolean): Promise<void>{
+    const promises: Promise<void>[] = [];
+    for (const [name, branch] of Object.entries(files)){
+        const subDir = `${dir}/${name}`;
+        if (filter && !filter(subDir))continue;
+        if (typeof branch === "string"){
+            promises.push(Deno.writeTextFile(subDir, branch));
+        } else {
+            promises.push(writeToDir(subDir, branch, filter));
+        }
+    }
+    await Promise.all(promises);
 }
 
 async function readDir(dir: string){
