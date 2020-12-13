@@ -1,5 +1,9 @@
 import * as util from "./modules/util.js";
 
+const href = "./day/days.json"
+const pDays = fetch(href).then(res=>res.json());
+setup({pDays});
+
 export async function setup({pDays}){
     const days = await pDays;
     for (const n in days){

@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <link href="//fonts.googleapis.com/css?family=Source+Code+Pro:300&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="../../style.css">
-    <title>Bram, AoC 2020 d((day))</title>
+    <title>Bram, AoC 2020 d{{day}}</title>
     <script type=module>
         const href = "./days.json"
         const pDays = fetch(href).then(res=>res.json());
         import * as util from "../modules/util.js";
         import * as matrix from "../modules/matrix.js";
-        import { setup } from "./day.mjs";
+        import { oldSetup } from "./day.js";
         const urlParams = util.getUrlParams();
         const dayNr = urlParams.day ?? 0;
         util.setDayNumber(dayNr);
-        setup({pDays, dayNr});
+        oldSetup({pDays, dayNr});
     </script>
 </head>
 <body>

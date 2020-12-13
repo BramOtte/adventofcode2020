@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro:300&amp;subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <title>Bram, d{{dayNr}} {{dayName}}</title>
+    <script type=module>
+        import { setup } from "../day.js";
+        import * as code from "./main.js";
+        const dayNr = {{dayNr}};
+        const dayJSON = {{dayJSON}};
+        setup({dayJSON, dayNr, code});
+    </script>
+</head>
+<body>
+    <header>
+        <h1 class="title-global">
+            <a href="../../">Bram AoC2020</a>
+        </h1>
+        <nav>
+            <ul>
+                <li><a href="./?day={{dayNr-1}}" id="nav-previous">[previous]</a></li>
+                <li><a href="./?day={{dayNr+1}}" id="nav-next">[next]</a></li>
+            </ul>
+        </nav>
+        <br>
+        <h1 class="title-event-wrap">
+            <a href="https://adventofcode.com/2020">AoC original site</a>
+        </h1>
+    </header>
+    <main>
+        <div id=HTMLLoggers></div>
+    </main>
+</body>
+</html>

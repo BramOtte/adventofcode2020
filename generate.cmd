@@ -1,0 +1,1 @@
+deno run generate.ts --allow-read --allow-write

@@ -1,7 +1,7 @@
 "use strict";
 import * as util from "../modules/util.js";
 
-export async function setup({pDays, dayNr}){
+export async function oldSetup({pDays, dayNr}){
     const days = await pDays ?? {};
 
     let { title, input, examples } = days[dayNr] ?? {};
