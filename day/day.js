@@ -12,10 +12,11 @@ export async function setup({pDays, dayNr}){
     const days = await pDays ?? {};
 
     let { title, input, examples } = days[dayNr] ?? {};
-    title ??= "no title";
+    title ??= "No Title";
     input ??= "input.txt";
     examples ??= ["1"];
 
+    document.title = document.title.replace("((title))", title);
     util.nextArticle(`--- Day ${dayNr}: ${title} ---`)
 
     const base = `./${dayNr}`;
@@ -32,6 +33,8 @@ export async function setup({pDays, dayNr}){
     const mainInput = util.deepFreeze(code.getInput(mainText));
     const exampleInput = exampleText.map(text => util.deepFreeze(code.getInput(text)) );
     
+    console.log(mainInput, exampleInput);
+
     callPart(code.part1);
     util.nextArticle("-- part2 --")
     callPart(code.part2);

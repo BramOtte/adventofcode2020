@@ -9,7 +9,7 @@ export async function setup({pDays}){
     for (const n in days){
         const day = days[n];
         const link = document.createElement("a");
-        link.innerText = `Day ${n}: ${day.title}`;
+        link.innerText = `Day ${n}: ${day.title??"No Title"}`;
         link.href = `./day/?day=${n}`;
         HTMLLoggers.appendChild(link);
         HTMLLoggers.appendChild(document.createElement("br"));

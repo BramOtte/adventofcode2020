@@ -15,8 +15,8 @@ export default class AnimatedCanvas{
     animate(frameNr){
         this.clear();
         frameNr = frameNr % this.keyFrames.length;
-        let i = Math.floor(frameNr);
-        let t = frameNr - i;
+        const i = Math.floor(frameNr);
+        const t = frameNr - i;
         const frame = this.keyFrames[i];
         if (typeof frame === "function"){
             frame(t);

@@ -15,7 +15,7 @@
         "title": "Binary Boarding"
     },
     "6": {
-        "title": "Day 6: Custom Customs"
+        "title": "Custom Customs"
     },
     "7": {
         "title": "Handy Haversacks"
@@ -39,5 +39,8 @@
         "title": "Shuttle Search", "examples":[
             "1", "2", "3", "4", "5", "6"
         ]
+    },
+    "14": {
+        "title": "Docking Data", "examples": ["1", "2"]
     }
 }

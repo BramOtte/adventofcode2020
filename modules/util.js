@@ -107,12 +107,12 @@ export function HTMLStringTable(heading, objArr, keys){
     nextSpan();
     return details;
 }
-export function setDayNumber(day){
+export function setDayNumber(dayNr, title = "no title"){
     addEventListener("load", ()=>{
-        document.title = document.title.replace("((day))", day);
+        document.title = document.title.replace("((day))", dayNr);
         for (const a of document.getElementsByTagName("a")){
-            a.href = a.href.replace("((day-1))", day-1);
-            a.href = a.href.replace("((day+1))", day+1);
+            a.href = a.href.replace("((day-1))", dayNr-1);
+            a.href = a.href.replace("((day+1))", dayNr+1);
         }
     });
 }

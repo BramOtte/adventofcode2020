@@ -71,7 +71,7 @@ export function part2(input){
     let product = 1;
     let t = 0;
     for (let i = 1; i < ids.length; i++){
-        while (!test2(ids, offsets, t, i, i+1)){
+        while (!test2Single(t, ids[i], offsets[i])){
             t += product;
         }
         const id1 = ids[i-1], id2 = ids[i];
@@ -83,6 +83,11 @@ export function part2(input){
         expected: time 
     };
 }
+function test2Single(time, id, offset){
+    const phase = time % id;
+    const expectedPhase = (id - ( offset%id ) ) % id;
+    return phase === expectedPhase;
+}
 /**
  * 
  * @param {number[]} ids
@@ -91,10 +96,8 @@ export function part2(input){
  */
 function test2(ids, offsets, time, begin=0, end=ids.length){
     for (let i = begin; i < end; i++){
-        const offset = offsets[i], id = ids[i];
-        const phase = time % id;
-        const expectedPhase = (id - ( offset%id) ) % id
-        if (phase !== expectedPhase)return false;
+        const id = ids[i], offset = offsets[i];
+        if (!test2Single(time, id, offset))return false;
     }
     return true;
 }
